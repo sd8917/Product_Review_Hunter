@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br><br>
+{% for product in products %}
+
+  <div class="row pt-3">
+    <div class="col-2"  onclick = "window.location='{% url 'detail' product.id %}'" style="cursor:pointer">
+        <img src="{{ product.icon.url }}" class="img-fluid"/>
+    </div>
+
+    <div class="col-6" onclick = "window.location='{% url 'detail' product.id %}'" style="cursor:pointer"> <!-- it will select this div class location aree and send to the detail url page of particular product id-->
+      <h1> {{ product.title }}</h1> <!-- it display the title of the product in h1-->
+      <p> {{ product.summary}}</p>  <!-- it display the Summary of the prduct-->
+    </div>
+
+    <div class="col-4" onclick = "window.location='{% url 'detail' product.id %}'">
+          <a href="javascript:{ document.getElementById('upvote{{ product.id }}').submit() }"><button class="btn btn-primary btn-lg btn-block"><i class="fa fa-caret-up"> </i> Upvote {{ product.votes_total }} </button> </a>
+    </div>
+
+  </div>
+  <hr>
+  <!-- it will give u the upvote property -->
+  <form id="upvote{{ product.id }}" method="POST" action="{% url 'upvote' product.id %}">
+    {% csrf_token %}
+    <input type="hidden"/>
+  </form>
+
+{% endfor %}
+
+
+
+{% endblock %}
